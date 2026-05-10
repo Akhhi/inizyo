@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INIZYO | Premium Wedding Rentals & Bridal Services Coimbatore</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" as="image"
+        href="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1974&auto=format&fit=crop">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+        :root {
+            --brand-maroon: #5c0a1a;
+            --brand-gold: #c5a059;
+            --brand-cream: #fdfaf5;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--brand-cream);
+            color: #333;
+        }
+
+        h1,
+        h2,
+        h3,
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .bg-maroon {
+            background-color: var(--brand-maroon);
+        }
+
+        .text-maroon {
+            color: var(--brand-maroon);
+        }
+
+        .bg-gold {
+            background-color: var(--brand-gold);
+        }
+
+        .text-gold {
+            color: var(--brand-gold);
+        }
+
+        .border-gold {
+            border-color: var(--brand-gold);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(rgba(92, 10, 26, 0.8), rgba(92, 10, 26, 0.6)), url('assets/cover.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--brand-gold);
+            transition: width .3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .card-zoom:hover img {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #128c7e;
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--brand-gold);
+        }
+
+        .pattern-bg {
+            background-image: radial-gradient(var(--brand-gold) 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            opacity: 0.1;
+        }
+
+        @keyframes scrollHorizontal {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes zigZagUp {
+
+            0%,
+            100% {
+                transform: translateY(15px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes zigZagDown {
+
+            0%,
+            100% {
+                transform: translateY(-15px);
+            }
+
+            50% {
+                transform: translateY(15px);
+            }
+        }
+
+        .scroll-track {
+            display: flex;
+            width: max-content;
+            animation: scrollHorizontal 20s linear infinite;
+            will-change: transform;
+        }
+
+        .scroll-track:hover {
+            animation-play-state: paused;
+        }
+
+        .zig-zag-up {
+            animation: zigZagUp 4s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .zig-zag-down {
+            animation: zigZagDown 4s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .fade-edges {
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.3s ease-out;
+        }
+
+        .modal-enter.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/91XXXXXXXXXX?text=Hi%20Inizyo,%20I'm%20interested%20in%20your%20wedding%20services."
+        target="_blank" class="whatsapp-float flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-12 h-12 bg-maroon rounded-full flex items-center justify-center border-2 border-gold">
+                    <span class="text-gold font-serif text-2xl font-bold">I</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-maroon font-serif text-2xl font-bold leading-tight tracking-widest">INIZYO</span>
+                    <span class="text-[10px] uppercase tracking-[0.2em] text-gray-500">Rentals & Bridal Studio</span>
+                </div>
+            </div>
+
+            <ul class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-wider text-gray-700">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#men" class="nav-link">Men</a></li>
+                <li><a href="#women" class="nav-link">Women</a></li>
+                <li><a href="#jewelry" class="nav-link">Jewelry</a></li>
+                <li><a href="#bridal" class="nav-link">Bridal Makeup</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <button id="mobile-menu-btn" class="md:hidden text-maroon text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-maroon text-white absolute w-full left-0 py-6 px-4">
+            <ul class="flex flex-col space-y-4 text-center">
+                <li><a href="#home" class="mobile-link">Home</a></li>
+                <li><a href="#men" class="mobile-link">Men's Collection</a></li>
+                <li><a href="#women" class="mobile-link">Women's Collection</a></li>
+                <li><a href="#jewelry" class="mobile-link">Jewelry</a></li>
+                <li><a href="#bridal" class="mobile-link">Bridal Makeup</a></li>
+                <li><a href="#contact" class="mobile-link">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient h-[80vh] flex items-center justify-center text-center px-4">
+        <div class="max-w-3xl">
+            <h4 class="text-gold uppercase tracking-[0.4em] mb-4 text-sm md:text-lg animate-pulse">Elegance Redefined
+            </h4>
+            <h1 class="text-4xl md:text-7xl text-white font-bold mb-6">Your Dream Wedding Look, <span
+                    class="italic text-gold">Simplified.</span></h1>
+            <p class="text-gray-200 text-lg mb-8 leading-relaxed">Coimbatore's premium destination for luxury wedding
+                attire rentals, exquisite jewelry, and professional bridal services.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#women"
+                    class="bg-gold text-maroon px-8 py-4 rounded font-bold uppercase tracking-widest hover:bg-white transition duration-300">Explore
+                    Collection</a>
+                <a href="#bridal"
+                    class="border-2 border-white text-white px-8 py-4 rounded font-bold uppercase tracking-widest hover:bg-gold hover:border-gold transition duration-300">Book
+                    Bridal Session</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-10 bg-maroon text-white border-y border-gold/30">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <h3 class="text-3xl font-bold text-gold">500+</h3>
+                    <p class="text-xs uppercase tracking-widest text-gray-400">Total Designs</p>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-bold text-gold">100+</h3>
+                    <p class="text-xs uppercase tracking-widest text-gray-400">Jewelry Sets</p>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-bold text-gold">50+</h3>
+                    <p class="text-xs uppercase tracking-widest text-gray-400">Menswear Styles</p>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-bold text-gold">1k+</h3>
+                    <p class="text-xs uppercase tracking-widest text-gray-400">Happy Clients</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Women's Collection -->
+    <section id="women" class="py-20 bg-cream relative">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center mb-12 reveal-up">
+                <h2 class="text-4xl font-bold text-maroon mb-2">Women's Bridal Wear</h2>
+                <div class="h-1 w-20 bg-gold"></div>
+                <p class="mt-4 text-gray-600 text-center max-w-2xl">Showcasing our signature pieces. Visit us to explore
+                    our full library of 300+ bridal designs.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal-up" style="transition-delay: 200ms;">
+                <!-- Women Product 1 -->
+                <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer" onclick="openImageModal('assets/bride1.png')">
+                    <img loading="lazy" decoding="async" src="assets/bride1.png" alt="Bridal Lehenga"
+                        class="w-full h-[450px] object-cover transition duration-500">
+                    <div
+                        class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                        <h3 class="text-xl font-serif mb-2">Ruby Red Lehenga</h3>
+                        <button onclick="event.stopPropagation(); inquireProduct('Ruby Red Lehenga')"
+                            class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                    </div>
+                </div>
+                <!-- Women Product 2 -->
+                <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer" onclick="openImageModal('assets/bride2.png')">
+                    <img loading="lazy" decoding="async" src="assets/bride2.png" alt="Bridal Saree"
+                        class="w-full h-[450px] object-cover transition duration-500">
+                    <div
+                        class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                        <h3 class="text-xl font-serif mb-2">Heritage Kanchipuram</h3>
+                        <button onclick="event.stopPropagation(); inquireProduct('Heritage Kanchipuram')"
+                            class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                    </div>
+                </div>
+                <!-- Women Product 3 -->
+                <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer" onclick="openImageModal('assets/bride3.png')">
+                    <img loading="lazy" decoding="async" src="assets/bride3.png" alt="Designer Gown"
+                        class="w-full h-[450px] object-cover transition duration-500">
+                    <div
+                        class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                        <h3 class="text-xl font-serif mb-2">Champagne Gown</h3>
+                        <button onclick="event.stopPropagation(); inquireProduct('Champagne Gown')"
+                            class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                    </div>
+                </div>
+                <!-- DISCOVER MORE CARD -->
+                <div class="border-2 border-dashed border-gold rounded-lg flex flex-col items-center justify-center p-8 bg-white/50 text-center group hover:bg-gold hover:text-white transition duration-300 cursor-pointer"
+                    onclick="inquireProduct('Full Women\'s Collection Catalog')">
+                    <div
+                        class="w-16 h-16 rounded-full bg-maroon/10 flex items-center justify-center mb-4 group-hover:bg-white/20">
+                        <i class="fas fa-plus text-maroon group-hover:text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Discover 250+ More Designs</h3>
+                    <p class="text-sm opacity-70 mb-6">Our website only shows 5% of our collection. Tap to see our full
+                        catalog.</p>
+                    <span
+                        class="text-xs font-bold uppercase tracking-widest border-b-2 border-gold group-hover:border-white">View
+                        Full Gallery</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Men's Collection -->
+    <section id="men" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center mb-12 reveal-up">
+                <h2 class="text-4xl font-bold text-maroon mb-2">Men's Groom Wear</h2>
+                <div class="h-1 w-20 bg-gold"></div>
+                <p class="mt-4 text-gray-600 text-center max-w-2xl">Classic silhouettes for the modern groom. Visit our
+                    studio for 50+ exclusive in-store designs.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12 reveal-up" style="transition-delay: 200ms;">
+                <div class="bg-cream rounded-lg p-2 shadow transition hover:shadow-md border border-gray-100">
+                    <img loading="lazy" decoding="async" src="assets/groom1.png" alt="Sherwani"
+                        class="w-full h-80 object-cover rounded mb-4 cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.src)">
+                    <h4 class="text-center font-bold text-maroon">Royal Sherwani</h4>
+                    <button onclick="inquireProduct('Royal Sherwani')"
+                        class="w-full mt-2 py-2 border border-maroon text-maroon hover:bg-maroon hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all text-xs font-bold rounded uppercase">Inquire</button>
+                </div>
+                <div class="bg-cream rounded-lg p-2 shadow transition hover:shadow-md border border-gray-100">
+                    <img loading="lazy" decoding="async" src="assets/groom2.png" alt="Jodhpur Suit"
+                        class="w-full h-80 object-cover rounded mb-4 cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.src)">
+                    <h4 class="text-center font-bold text-maroon">Jodhpur Suit</h4>
+                    <button onclick="inquireProduct('Jodhpur Suit')"
+                        class="w-full mt-2 py-2 border border-maroon text-maroon hover:bg-maroon hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all text-xs font-bold rounded uppercase">Inquire</button>
+                </div>
+                <div class="bg-cream rounded-lg p-2 shadow transition hover:shadow-md border border-gray-100">
+                    <img loading="lazy" decoding="async" src="assets/groom3.png" alt="Tuxedo"
+                        class="w-full h-80 object-cover rounded mb-4 cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.src)">
+                    <h4 class="text-center font-bold text-maroon">Italian Tuxedo</h4>
+                    <button onclick="inquireProduct('Italian Tuxedo')"
+                        class="w-full mt-2 py-2 border border-maroon text-maroon hover:bg-maroon hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all text-xs font-bold rounded uppercase">Inquire</button>
+                </div>
+                <div class="bg-cream rounded-lg p-2 shadow transition hover:shadow-md border border-gray-100">
+                    <img loading="lazy" decoding="async"
+                        src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=600&auto=format&fit=crop"
+                        alt="Indo-Western" class="w-full h-80 object-cover rounded mb-4 cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.src)">
+                    <h4 class="text-center font-bold text-maroon">Indo-Western</h4>
+                    <button onclick="inquireProduct('Indo-Western')"
+                        class="w-full mt-2 py-2 border border-maroon text-maroon hover:bg-maroon hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all text-xs font-bold rounded uppercase">Inquire</button>
+                </div>
+            </div>
+
+            <!-- More Designs Banner -->
+            <div
+                class="bg-maroon p-8 rounded-xl flex flex-col md:flex-row items-center justify-between text-white border-2 border-gold/20 shadow-2xl">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-serif text-gold mb-2">Wait, there's more!</h3>
+                    <p class="text-sm text-gray-300">We have over <span class="text-white font-bold">80+ Blazers,
+                            Sherwanis and Kurta sets</span> available exclusively at our Podanur store.</p>
+                </div>
+                <button onclick="inquireProduct('Full Menswear Catalog')"
+                    class="bg-gold text-maroon px-8 py-3 rounded font-bold uppercase text-sm tracking-widest hover:bg-white transition">Request
+                    Full Catalog</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jewelry Section -->
+    <section id="jewelry" class="py-20 bg-maroon text-white overflow-hidden relative">
+        <div class="pattern-bg absolute inset-0"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl font-bold mb-6">Exquisite Bridal <span class="text-gold italic">Jewelry</span>
+                    </h2>
+                    <p class="text-gray-300 mb-8 leading-relaxed">Beyond these highlights, we house over 150+ heavy
+                        bridal sets, antique chokers, and diamond-finish necklaces for every wedding occasion.</p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-gold"></i>
+                            <span>Traditional Temple Jewelry (100+ Styles)</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-gold"></i>
+                            <span>Emerald & Ruby Statement Pieces</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-gold"></i>
+                            <span>Lightweight Designer Sets for Receptions</span>
+                        </li>
+                    </ul>
+                    <button onclick="inquireProduct('Jewelry Collection')"
+                        class="bg-gold text-maroon px-8 py-3 rounded font-bold uppercase tracking-widest hover:bg-white transition">Ask
+                        for Catalog PDF</button>
+                </div>
+                <div class="md:w-1/2 relative overflow-hidden py-10 fade-edges">
+                    <div class="scroll-track">
+                        <!-- Group 1 -->
+                        <div class="flex gap-4 pr-4 items-center">
+                            <div class="zig-zag-up">
+                                <img loading="lazy" decoding="async"
+                                    src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=600&auto=format&fit=crop"
+                                    alt="Necklace"
+                                    class="w-40 h-56 md:w-48 md:h-64 object-cover rounded-lg shadow-2xl border-4 border-gold/20 transform hover:scale-105 transition duration-300">
+                            </div>
+                            <div class="zig-zag-down">
+                                <img loading="lazy" decoding="async"
+                                    src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=600&auto=format&fit=crop"
+                                    alt="Earrings"
+                                    class="w-40 h-56 md:w-48 md:h-64 object-cover rounded-lg shadow-2xl border-4 border-gold/20 transform hover:scale-105 transition duration-300">
+                            </div>
+                            <div class="zig-zag-up">
+                                <img loading="lazy" decoding="async"
+                                    src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=600&auto=format&fit=crop"
+                                    alt="Bridal Jewelry"
+                                    class="w-40 h-56 md:w-48 md:h-64 object-cover rounded-lg shadow-2xl border-4 border-gold/20 transform hover:scale-105 transition duration-300">
+                            </div>
+                            <div class="zig-zag-down">
+                                <img loading="lazy" decoding="async"
+                                    src="https://images.unsplash.com/photo-1599643477877-530e5562020f?q=80&w=600&auto=format&fit=crop"
+                                    alt="Bangles"
+                                    class="w-40 h-56 md:w-48 md:h-64 object-cover rounded-lg shadow-2xl border-4 border-gold/20 transform hover:scale-105 transition duration-300">
+                            </div>
+                        </div>
+                        <!-- Group 2 (Duplicate for loop) -->
+                        <div class="flex gap-4 pr-4 items-center">
+                            <div class="zig-zag-up">
+                                <img loading="lazy" decoding="async"
+                                    src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=600&auto=format&fit=crop"
+                                    alt="Necklace"
+                                    class="w-40 h-56 md:w-48 md:h-64 object-cover rounded-lg shadow-2xl border-4 border-gold/20 transform hover:scale-105 transition duration-300">
+                            </div>
+                            <div class="zig-zag-down">
+                                <img loading="lazy" decoding="async"
+                                    src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=600&auto=format&fit=crop"
+                                    alt="Earrings"
+                                    class="w-40 h-56 md:w-48 md:h-64 object-cover rounded-lg shadow-2xl border-4 border-gold/20 transform hover:scale-105 transition duration-300">
+                            </div>
+                            <div class="zig-zag-up">
+                                <img loading="lazy" decoding="async"
+                                    src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=600&auto=format&fit=crop"
+                                    alt="Bridal Jewelry"
+                                    class="w-40 h-56 md:w-48 md:h-64 object-cover rounded-lg shadow-2xl border-4 border-gold/20 transform hover:scale-105 transition duration-300">
+                            </div>
+                            <div class="zig-zag-down">
+                                <img loading="lazy" decoding="async"
+                                    src="https://images.unsplash.com/photo-1599643477877-530e5562020f?q=80&w=600&auto=format&fit=crop"
+                                    alt="Bangles"
+                                    class="w-40 h-56 md:w-48 md:h-64 object-cover rounded-lg shadow-2xl border-4 border-gold/20 transform hover:scale-105 transition duration-300">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bridal Makeup Section -->
+    <section id="bridal" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl font-bold text-maroon mb-6">Bridal Makeup <span class="text-gold">&
+                            Styling</span></h2>
+                    <p class="text-gray-600 mb-8 leading-relaxed">Complete your transformation with our in-house bridal
+                        makeup services. We specialize in Airbrush, HD Makeup, and traditional South Indian bridal
+                        looks.</p>
+
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="bg-cream p-4 rounded border-l-4 border-gold">
+                            <h4 class="font-bold text-maroon">HD Makeup</h4>
+                            <p class="text-sm text-gray-500">Perfect for photography</p>
+                        </div>
+                        <div class="bg-cream p-4 rounded border-l-4 border-gold">
+                            <h4 class="font-bold text-maroon">Airbrush</h4>
+                            <p class="text-sm text-gray-500">Waterproof & Long lasting</p>
+                        </div>
+                    </div>
+
+                    <button onclick="inquireProduct('Bridal Makeup Services')"
+                        class="bg-maroon text-white px-8 py-3 rounded font-bold uppercase tracking-widest hover:bg-gold hover:text-maroon transition shadow-lg">Check
+                        Availability</button>
+                </div>
+                <div class="md:w-1/2">
+                    <img loading="lazy" decoding="async"
+                        src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1000&auto=format&fit=crop"
+                        alt="Makeup Artist" class="rounded-lg shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map & Contact Section -->
+    <section id="contact" class="py-20 bg-cream">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/3">
+                    <h2 class="text-3xl font-bold text-maroon mb-6">Visit Our Store</h2>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div
+                                class="bg-maroon text-gold w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Address</h4>
+                                <p class="text-gray-600 text-sm">Karupparayan Kovil, Podanur Main Rd,<br>opposite Shaadi
+                                    Mahal, Coimbatore,<br>Tamil Nadu 641023</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div
+                                class="bg-maroon text-gold w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Phone</h4>
+                                <p class="text-gray-600 text-sm">+91 XXXXX XXXXX</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10">
+                        <h4 class="font-bold mb-4 uppercase tracking-widest text-sm">Follow Us</h4>
+                        <div class="flex space-x-4">
+                            <a href="https://instagram.com/inizy_o" target="_blank"
+                                class="w-10 h-10 bg-maroon text-white rounded-full flex items-center justify-center hover:bg-gold transition">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:w-2/3 h-[450px] bg-white rounded-lg shadow-xl overflow-hidden border-4 border-white">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.6575990263884!2d76.96928817585093!3d10.969897089190986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8597db1a6d535%3A0xc29ea013c7763415!2sINIZYO%20RENTALS!5e0!3m2!1sen!2sin!4v1715694856712!5m2!1sen!2sin"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-maroon text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <div class="mb-6 flex flex-col items-center">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center border-2 border-gold mb-4">
+                    <span class="text-maroon font-serif text-3xl font-bold">I</span>
+                </div>
+                <h2 class="text-2xl font-serif tracking-widest">INIZYO</h2>
+            </div>
+            <p class="text-gray-400 text-sm max-w-lg mx-auto mb-8">Serving Coimbatore with the finest bridal and groom
+                collections. 500+ designs available in-store.</p>
+            <p class="text-gray-500 text-xs">&copy; 2024 INIZYO Rentals & Bridal Studio. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Lead Gen Modal -->
+    <div id="leadModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
+        <div id="leadModalContent" class="bg-white/95 backdrop-blur-md rounded-lg max-w-md w-full p-8 relative modal-enter">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-maroon">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-maroon mb-2">See More Collections</h3>
+            <p class="text-gray-600 mb-6 text-sm">We have 500+ designs in-store. Drop your name to receive our digital
+                catalog on WhatsApp.</p>
+            <form id="leadForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Full Name</label>
+                    <input type="text" id="userName" required
+                        class="w-full p-3 border border-gray-200 rounded focus:border-gold outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Interested In</label>
+                    <select id="userInterest"
+                        class="w-full p-3 border border-gray-200 rounded focus:border-gold outline-none">
+                        <option>Full Collection Catalog</option>
+                        <option>Men's Rental</option>
+                        <option>Women's Rental</option>
+                        <option>Jewelry</option>
+                        <option>Bridal Makeup</option>
+                    </select>
+                </div>
+                <button type="submit"
+                    class="w-full bg-maroon text-white py-3 rounded font-bold hover:bg-gold transition uppercase tracking-wider">Get
+                    Full Catalog</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 transition-opacity duration-300" onclick="closeImageModal()">
+        <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white hover:text-gold text-3xl z-10">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="modalImage" src="" alt="Full Costume" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl modal-enter relative" onclick="event.stopPropagation()">
+    </div>
+
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        function inquireProduct(productName) {
+            const message = `Hi Inizyo! I saw the "${productName}" on your website. I understand you have a much larger collection in-store; could you please share more designs or help me book a visit to see the full collection?`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/91XXXXXXXXXX?text=${encodedMessage}`, '_blank');
+        }
+
+        document.getElementById('leadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('userName').value;
+            const interest = document.getElementById('userInterest').value;
+            const message = `Hi Inizyo, my name is ${name}. I'd like to see your full collection of ${interest}. Can you share some photos or a catalog link?`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/91XXXXXXXXXX?text=${encodedMessage}`, '_blank');
+            closeModal();
+        });
+
+        function openModal() {
+            const modal = document.getElementById('leadModal');
+            const content = document.getElementById('leadModalContent');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => content.classList.add('active'), 10);
+        }
+        function closeModal() {
+            const modal = document.getElementById('leadModal');
+            const content = document.getElementById('leadModalContent');
+            content.classList.remove('active');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function openImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => modalImg.classList.add('active'), 10);
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.classList.remove('active');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        setTimeout(openModal, 15000);
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
