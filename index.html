@@ -17,6 +17,14 @@
     <noscript>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </noscript>
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap');
 
@@ -158,6 +166,27 @@
             animation-play-state: paused;
         }
 
+        @keyframes scrollHorizontalReverse {
+            0% {
+                transform: translateX(-50%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .scroll-track-reverse {
+            display: flex;
+            width: max-content;
+            animation: scrollHorizontalReverse 30s linear infinite;
+            will-change: transform;
+        }
+
+        .scroll-track-reverse:hover {
+            animation-play-state: paused;
+        }
+
         .zig-zag-up {
             animation: zigZagUp 4s ease-in-out infinite;
             will-change: transform;
@@ -171,6 +200,15 @@
         .fade-edges {
             -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
             mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         html {
@@ -198,6 +236,104 @@
             opacity: 1;
             transform: scale(1);
         }
+
+        /* Dark Mode Styles */
+        html.dark body {
+            background-color: #121212;
+            color: #fdfaf5;
+        }
+
+        html.dark header.bg-white\/80 {
+            background-color: rgba(18, 18, 18, 0.85);
+        }
+
+        html.dark .text-gray-700 {
+            color: #e5e7eb;
+        }
+
+        html.dark .bg-cream {
+            background-color: #1a1a1a;
+        }
+
+        html.dark section.bg-white {
+            background-color: #121212;
+        }
+
+        html.dark .text-maroon {
+            color: var(--brand-gold);
+        }
+
+        html.dark .bg-maroon {
+            background-color: #3a0610;
+        }
+
+        html.dark .text-gray-600 {
+            color: #9ca3af;
+        }
+
+        html.dark .text-gray-500 {
+            color: #9ca3af;
+        }
+
+        html.dark .bg-white {
+            background-color: #1e1e1e;
+        }
+
+        html.dark .bg-cream.p-2,
+        html.dark .bg-cream.p-4 {
+            background-color: #252525;
+            border-color: #333;
+        }
+
+        html.dark .border-gray-100 {
+            border-color: #333;
+        }
+
+        html.dark .border-white {
+            border-color: #1e1e1e;
+        }
+
+        html.dark .border-gray-200 {
+            border-color: #444;
+        }
+
+        html.dark input,
+        html.dark select {
+            background-color: #252525;
+            color: #fff;
+            border-color: #444;
+        }
+
+        html.dark .border-maroon {
+            border-color: var(--brand-gold);
+            color: var(--brand-gold);
+        }
+
+        html.dark .border-maroon:hover {
+            background-color: var(--brand-gold);
+            color: #121212;
+        }
+
+        html.dark button.bg-maroon {
+            background-color: var(--brand-gold);
+            color: #121212;
+        }
+
+        html.dark button.bg-maroon:hover {
+            background-color: #e5c07b;
+        }
+
+        html.dark #leadModalContent {
+            background-color: rgba(30, 30, 30, 0.95);
+        }
+
+        html.dark #leadModalContent p.text-gray-600 {
+            color: #ccc;
+        }
+
+        html.dark .bg-white\/50 {
+            background-color: rgba(30, 30, 30, 0.5);
+        }
     </style>
 </head>
 
@@ -210,7 +346,7 @@
     </a>
 
     <!-- Header & Navigation -->
-    <header class="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50 transition-all duration-300">
+    <header class="bg-white/80 backdrop-blur-md shadow-md fixed w-full top-0 z-[100] transition-all duration-300">
         <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <div class="w-12 h-12 bg-maroon rounded-full flex items-center justify-center border-2 border-gold">
@@ -222,18 +358,29 @@
                 </div>
             </div>
 
-            <ul class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-wider text-gray-700">
+            <ul
+                class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-wider text-gray-700 items-center">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#men" class="nav-link">Men</a></li>
                 <li><a href="#women" class="nav-link">Women</a></li>
                 <li><a href="#jewelry" class="nav-link">Jewelry</a></li>
                 <li><a href="#bridal" class="nav-link">Bridal Makeup</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li>
+                    <button id="theme-toggle" class="focus:outline-none hover:text-gold transition">
+                        <i id="theme-icon" class="fas fa-sun text-lg"></i>
+                    </button>
+                </li>
             </ul>
 
-            <button id="mobile-menu-btn" class="md:hidden text-maroon text-2xl">
-                <i class="fas fa-bars"></i>
-            </button>
+            <div class="md:hidden flex items-center space-x-4">
+                <button id="theme-toggle-mobile" class="focus:outline-none text-maroon hover:text-gold transition">
+                    <i id="theme-icon-mobile" class="fas fa-sun text-lg"></i>
+                </button>
+                <button id="mobile-menu-btn" class="text-maroon text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </nav>
 
         <div id="mobile-menu" class="hidden md:hidden bg-maroon text-white absolute w-full left-0 py-6 px-4">
@@ -248,185 +395,424 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero-gradient h-[80vh] flex items-center justify-center text-center px-4">
-        <div class="max-w-3xl">
-            <h4 class="text-gold uppercase tracking-[0.4em] mb-4 text-sm md:text-lg animate-pulse">Elegance Redefined
-            </h4>
-            <h1 class="text-4xl md:text-7xl text-white font-bold mb-6">Your Dream Wedding Look, <span
-                    class="italic text-gold">Simplified.</span></h1>
-            <p class="text-gray-200 text-lg mb-8 leading-relaxed">Coimbatore's premium destination for luxury wedding
-                attire rentals, exquisite jewelry, and professional bridal services.</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#women"
-                    class="bg-gold text-maroon px-8 py-4 rounded font-bold uppercase tracking-widest hover:bg-white transition duration-300">Explore
-                    Collection</a>
-                <a href="#bridal"
-                    class="border-2 border-white text-white px-8 py-4 rounded font-bold uppercase tracking-widest hover:bg-gold hover:border-gold transition duration-300">Book
-                    Bridal Session</a>
+    <div class="min-h-screen flex flex-col w-full">
+        <!-- Hero Section -->
+        <section id="home" class="hero-gradient flex-1 flex items-center justify-center text-center px-4 pt-20">
+            <div class="max-w-3xl">
+                <h4 class="text-gold uppercase tracking-[0.4em] mb-4 text-sm md:text-lg animate-pulse">Elegance
+                    Redefined
+                </h4>
+                <h1 class="text-4xl md:text-7xl text-white font-bold mb-6">Your Dream Wedding Look, <span
+                        class="italic text-gold">Simplified.</span></h1>
+                <p class="text-gray-200 text-lg mb-8 leading-relaxed">Coimbatore's premium destination for luxury
+                    wedding
+                    attire rentals, exquisite jewelry, and professional bridal services.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#women"
+                        class="bg-gold text-maroon px-8 py-4 rounded font-bold uppercase tracking-widest hover:bg-white transition duration-300">Explore
+                        Collection</a>
+                    <a href="#bridal"
+                        class="border-2 border-white text-white px-8 py-4 rounded font-bold uppercase tracking-widest hover:bg-gold hover:border-gold transition duration-300">Book
+                        Bridal Session</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Stats Section -->
-    <section class="py-10 bg-maroon text-white border-y border-gold/30">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div>
-                    <h3 class="text-3xl font-bold text-gold">500+</h3>
-                    <p class="text-xs uppercase tracking-widest text-gray-400">Total Designs</p>
-                </div>
-                <div>
-                    <h3 class="text-3xl font-bold text-gold">100+</h3>
-                    <p class="text-xs uppercase tracking-widest text-gray-400">Jewelry Sets</p>
-                </div>
-                <div>
-                    <h3 class="text-3xl font-bold text-gold">50+</h3>
-                    <p class="text-xs uppercase tracking-widest text-gray-400">Menswear Styles</p>
-                </div>
-                <div>
-                    <h3 class="text-3xl font-bold text-gold">1k+</h3>
-                    <p class="text-xs uppercase tracking-widest text-gray-400">Happy Clients</p>
+        <!-- Stats Section -->
+        <section class="py-10 bg-maroon text-white border-y border-gold/30 shrink-0">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <h3 class="text-3xl font-bold text-gold">500+</h3>
+                        <p class="text-xs uppercase tracking-widest text-gray-400">Total Designs</p>
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold text-gold">100+</h3>
+                        <p class="text-xs uppercase tracking-widest text-gray-400">Jewelry Sets</p>
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold text-gold">50+</h3>
+                        <p class="text-xs uppercase tracking-widest text-gray-400">Menswear Styles</p>
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold text-gold">1k+</h3>
+                        <p class="text-xs uppercase tracking-widest text-gray-400">Happy Clients</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <!-- Women's Collection -->
-    <section id="women" class="py-20 bg-cream relative">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col items-center mb-12 reveal-up">
-                <h2 class="text-4xl font-bold text-maroon mb-2">Women's Bridal Wear</h2>
-                <div class="h-1 w-20 bg-gold"></div>
-                <p class="mt-4 text-gray-600 text-center max-w-2xl">Showcasing our signature pieces. Visit us to explore
-                    our full library of bridal designs.</p>
+    <section id="women" class="py-5 pt-8 bg-cream relative min-h-screen flex flex-col justify-center">
+        <div class="container mx-auto mt-10 px-4">
+            <div class="w-full mb-12 reveal-up overflow-hidden relative flex flex-col items-center md:items-start">
+                <div id="women-heading-group"
+                    class="flex flex-col items-center md:items-start mx-auto md:mx-0 w-max max-w-full"
+                    style="will-change: transform; transform: translateX(0px);">
+                    <h2 class="text-4xl md:text-7xl font-bold text-maroon mb-2 text-center md:text-left">Women's Bridal
+                        Wear</h2>
+                    <div class="h-1 w-20 bg-gold"></div>
+                    <p class="mt-4 text-gray-600 text-center md:text-left max-w-2xl whitespace-normal">Showcasing our
+                        signature pieces.
+                        Visit us to explore
+                        our full library of bridal designs.</p>
+                </div>
             </div>
+        </div> <!-- End container -->
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal-up"
-                style="transition-delay: 200ms;">
-                <!-- Women Product 1 -->
-                <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer"
-                    onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride1.png?updatedAt=1778461403616&tr=f-auto,q-auto')">
-                    <img loading="lazy" decoding="async"
-                        src="https://ik.imagekit.io/akhilz/Inizyo/bride1.png?updatedAt=1778461403616&tr=f-auto,q-auto"
-                        alt="Bridal Lehenga" class="w-full h-[450px] object-cover transition duration-500">
-                    <div
-                        class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
-                        <h3 class="text-xl font-serif mb-2">Ruby Red Lehenga</h3>
-                        <button onclick="event.stopPropagation(); inquireProduct('Ruby Red Lehenga')"
-                            class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+        <div class="w-full overflow-x-auto overflow-y-hidden py-4 fade-edges hide-scroll" id="brides-carousel">
+            <div class="flex w-max" id="brides-track">
+                <!-- Group 1 -->
+                <div class="flex gap-6 pr-6 w-max items-center">
+                    <!-- Women Product 1 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride5.png?updatedAt=1778519225510&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride5.png?updatedAt=1778519225510&tr=f-auto,q-auto"
+                            alt="Bridal Collection" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Elegance Collection</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Elegance Collection')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Women Product 2 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride6.png?updatedAt=1778519224246&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride6.png?updatedAt=1778519224246&tr=f-auto,q-auto"
+                            alt="Bridal Collection" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Royal Ensemble</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Royal Ensemble')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Women Product 3 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride4.png?updatedAt=1778519224053&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride4.png?updatedAt=1778519224053&tr=f-auto,q-auto"
+                            alt="Bridal Collection" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Signature Lehenga</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Signature Lehenga')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Women Product 4 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride7.png?updatedAt=1778519221007&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride7.png?updatedAt=1778519221007&tr=f-auto,q-auto"
+                            alt="Bridal Collection" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Classic Attire</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Classic Attire')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Women Product 5 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride2.png?updatedAt=1778519021946&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride2.png?updatedAt=1778519021946&tr=f-auto,q-auto"
+                            alt="Heritage Kanchipuram" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Heritage Kanchipuram</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Heritage Kanchipuram')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Women Product 6 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride3.png?updatedAt=1778461403899&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride3.png?updatedAt=1778461403899&tr=f-auto,q-auto"
+                            alt="Champagne Gown" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Champagne Gown</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Champagne Gown')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- DISCOVER MORE CARD -->
+                    <div class="border-2 border-dashed border-gold rounded-lg flex flex-col items-center justify-center p-8 bg-white/50 text-center group hover:border-maroon hover:shadow-lg transition duration-300 cursor-pointer w-[280px] shrink-0 md:w-[350px] h-[60vh]"
+                        onclick="inquireProduct('Full Women\'s Collection Catalog')">
+                        <div
+                            class="w-16 h-16 rounded-full bg-maroon/10 flex items-center justify-center mb-4 group-hover:bg-maroon/20 transition-colors">
+                            <i class="fas fa-plus text-maroon group-hover:text-gold text-2xl transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-maroon group-hover:text-gold transition-colors">Discover
+                            More
+                            Products</h3>
+                        <p class="text-sm opacity-70 mb-6 group-hover:text-maroon transition-colors">Our website only
+                            shows
+                            few of our collection. Visit us to see our
+                            full Collections.</p>
+                        <span
+                            class="text-xs font-bold uppercase tracking-widest border-b-2 border-gold text-maroon group-hover:border-maroon transition-colors">View
+                            Full Gallery</span>
                     </div>
                 </div>
-                <!-- Women Product 2 -->
-                <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer"
-                    onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride2.png?updatedAt=1778461404420&tr=f-auto,q-auto')">
-                    <img loading="lazy" decoding="async"
-                        src="https://ik.imagekit.io/akhilz/Inizyo/bride2.png?updatedAt=1778461404420&tr=f-auto,q-auto"
-                        alt="Bridal Saree" class="w-full h-[450px] object-cover transition duration-500">
-                    <div
-                        class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
-                        <h3 class="text-xl font-serif mb-2">Heritage Kanchipuram</h3>
-                        <button onclick="event.stopPropagation(); inquireProduct('Heritage Kanchipuram')"
-                            class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                <!-- Group 2 -->
+                <div class="flex gap-6 pr-6 w-max items-center">
+                    <!-- Women Product 1 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride5.png?updatedAt=1778519225510&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride5.png?updatedAt=1778519225510&tr=f-auto,q-auto"
+                            alt="Bridal Collection" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Elegance Collection</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Elegance Collection')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
                     </div>
-                </div>
-                <!-- Women Product 3 -->
-                <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer"
-                    onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride3.png?updatedAt=1778461403899&tr=f-auto,q-auto')">
-                    <img loading="lazy" decoding="async"
-                        src="https://ik.imagekit.io/akhilz/Inizyo/bride3.png?updatedAt=1778461403899&tr=f-auto,q-auto"
-                        alt="Designer Gown" class="w-full h-[450px] object-cover transition duration-500">
-                    <div
-                        class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
-                        <h3 class="text-xl font-serif mb-2">Champagne Gown</h3>
-                        <button onclick="event.stopPropagation(); inquireProduct('Champagne Gown')"
-                            class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                    <!-- Women Product 2 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride6.png?updatedAt=1778519224246&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride6.png?updatedAt=1778519224246&tr=f-auto,q-auto"
+                            alt="Bridal Collection" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Royal Ensemble</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Royal Ensemble')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
                     </div>
-                </div>
-                <!-- DISCOVER MORE CARD -->
-                <div class="border-2 border-dashed border-gold rounded-lg flex flex-col items-center justify-center p-8 bg-white/50 text-center group hover:border-maroon hover:shadow-lg transition duration-300 cursor-pointer"
-                    onclick="inquireProduct('Full Women\'s Collection Catalog')">
-                    <div
-                        class="w-16 h-16 rounded-full bg-maroon/10 flex items-center justify-center mb-4 group-hover:bg-maroon/20 transition-colors">
-                        <i class="fas fa-plus text-maroon group-hover:text-gold text-2xl transition-colors"></i>
+                    <!-- Women Product 3 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride4.png?updatedAt=1778519224053&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride4.png?updatedAt=1778519224053&tr=f-auto,q-auto"
+                            alt="Bridal Collection" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Signature Lehenga</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Signature Lehenga')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-maroon group-hover:text-gold transition-colors">Discover More
-                        Products</h3>
-                    <p class="text-sm opacity-70 mb-6 group-hover:text-maroon transition-colors">Our website only shows
-                        few of our collection. Visit us to see our
-                        full Collections.</p>
-                    <span
-                        class="text-xs font-bold uppercase tracking-widest border-b-2 border-gold text-maroon group-hover:border-maroon transition-colors">View
-                        Full Gallery</span>
+                    <!-- Women Product 4 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride7.png?updatedAt=1778519221007&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride7.png?updatedAt=1778519221007&tr=f-auto,q-auto"
+                            alt="Bridal Collection" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Classic Attire</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Classic Attire')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Women Product 5 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride2.png?updatedAt=1778519021946&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride2.png?updatedAt=1778519021946&tr=f-auto,q-auto"
+                            alt="Heritage Kanchipuram" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Heritage Kanchipuram</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Heritage Kanchipuram')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Women Product 6 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/bride3.png?updatedAt=1778461403899&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/bride3.png?updatedAt=1778461403899&tr=f-auto,q-auto"
+                            alt="Champagne Gown" class="w-full h-[60vh] object-cover transition duration-500">
+                        <div
+                            class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Champagne Gown</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Champagne Gown')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- DISCOVER MORE CARD -->
+                    <div class="border-2 border-dashed border-gold rounded-lg flex flex-col items-center justify-center p-8 bg-white/50 text-center group hover:border-maroon hover:shadow-lg transition duration-300 cursor-pointer w-[280px] shrink-0 md:w-[350px] h-[60vh]"
+                        onclick="inquireProduct('Full Women\'s Collection Catalog')">
+                        <div
+                            class="w-16 h-16 rounded-full bg-maroon/10 flex items-center justify-center mb-4 group-hover:bg-maroon/20 transition-colors">
+                            <i class="fas fa-plus text-maroon group-hover:text-gold text-2xl transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-maroon group-hover:text-gold transition-colors">Discover
+                            More
+                            Products</h3>
+                        <p class="text-sm opacity-70 mb-6 group-hover:text-maroon transition-colors">Our website only
+                            shows
+                            few of our collection. Visit us to see our
+                            full Collections.</p>
+                        <span
+                            class="text-xs font-bold uppercase tracking-widest border-b-2 border-gold text-maroon group-hover:border-maroon transition-colors">View
+                            Full Gallery</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Men's Collection -->
-    <section id="men" class="py-20 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col items-center mb-12 reveal-up">
-                <h2 class="text-4xl font-bold text-maroon mb-2">Men's Groom Wear</h2>
-                <div class="h-1 w-20 bg-gold"></div>
-                <p class="mt-4 text-gray-600 text-center max-w-2xl">Classic silhouettes for the modern groom. Visit our
-                    shop to see our full Collections.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12 reveal-up" style="transition-delay: 200ms;">
-                <div class="bg-cream rounded-lg p-2 shadow transition hover:shadow-md border border-gray-100">
-                    <img loading="lazy" decoding="async"
-                        src="https://ik.imagekit.io/akhilz/Inizyo/groom1.png?updatedAt=1778461398053&tr=f-auto,q-auto"
-                        alt="Sherwani"
-                        class="w-full h-80 object-cover rounded mb-4 cursor-pointer hover:opacity-90 transition"
-                        onclick="openImageModal(this.src)">
-                    <h4 class="text-center font-bold text-maroon">Royal Sherwani</h4>
-                    <button onclick="inquireProduct('Royal Sherwani')"
-                        class="w-full mt-2 py-2 border border-maroon text-maroon hover:bg-maroon hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all text-xs font-bold rounded uppercase">Inquire</button>
-                </div>
-                <div class="bg-cream rounded-lg p-2 shadow transition hover:shadow-md border border-gray-100">
-                    <img loading="lazy" decoding="async"
-                        src="https://ik.imagekit.io/akhilz/Inizyo/groom2.png?updatedAt=1778461396128&tr=f-auto,q-auto"
-                        alt="Jodhpur Suit"
-                        class="w-full h-80 object-cover rounded mb-4 cursor-pointer hover:opacity-90 transition"
-                        onclick="openImageModal(this.src)">
-                    <h4 class="text-center font-bold text-maroon">Jodhpur Suit</h4>
-                    <button onclick="inquireProduct('Jodhpur Suit')"
-                        class="w-full mt-2 py-2 border border-maroon text-maroon hover:bg-maroon hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all text-xs font-bold rounded uppercase">Inquire</button>
-                </div>
-                <div class="bg-cream rounded-lg p-2 shadow transition hover:shadow-md border border-gray-100">
-                    <img loading="lazy" decoding="async"
-                        src="https://ik.imagekit.io/akhilz/Inizyo/groom3.png?updatedAt=1778461396031&tr=f-auto,q-auto"
-                        alt="Tuxedo"
-                        class="w-full h-80 object-cover rounded mb-4 cursor-pointer hover:opacity-90 transition"
-                        onclick="openImageModal(this.src)">
-                    <h4 class="text-center font-bold text-maroon">Italian Tuxedo</h4>
-                    <button onclick="inquireProduct('Italian Tuxedo')"
-                        class="w-full mt-2 py-2 border border-maroon text-maroon hover:bg-maroon hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all text-xs font-bold rounded uppercase">Inquire</button>
-                </div>
-                <div class="bg-cream rounded-lg p-2 shadow transition hover:shadow-md border border-gray-100">
-                    <img loading="lazy" decoding="async"
-                        src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=600&auto=format&fit=crop"
-                        alt="Indo-Western"
-                        class="w-full h-80 object-cover rounded mb-4 cursor-pointer hover:opacity-90 transition"
-                        onclick="openImageModal(this.src)">
-                    <h4 class="text-center font-bold text-maroon">Indo-Western</h4>
-                    <button onclick="inquireProduct('Indo-Western')"
-                        class="w-full mt-2 py-2 border border-maroon text-maroon hover:bg-maroon hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all text-xs font-bold rounded uppercase">Inquire</button>
+    <section id="men" class="py-5 pt-8 bg-white relative min-h-screen flex flex-col justify-center">
+        <div class="container mx-auto mt-10 px-4">
+            <div class="w-full mb-12 reveal-up overflow-hidden relative flex flex-col items-center md:items-end">
+                <div id="men-heading-group"
+                    class="flex flex-col items-center md:items-end mx-auto md:mx-0 w-max max-w-full"
+                    style="will-change: transform; transform: translateX(0px);">
+                    <h2 class="text-4xl md:text-7xl font-bold text-maroon mb-2 text-center md:text-right">Men's Groom Wear</h2>
+                    <div class="h-1 w-20 bg-gold"></div>
+                    <p class="mt-4 text-gray-600 text-center md:text-right max-w-2xl whitespace-normal">Classic silhouettes for the modern groom. Visit our shop to see our full Collections.</p>
                 </div>
             </div>
+        </div> <!-- End container -->
 
-            <!-- More Designs Banner -->
-            <div
-                class="bg-maroon p-8 rounded-xl flex flex-col md:flex-row items-center justify-between text-white border-2 border-gold/20 shadow-2xl">
-                <div class="mb-6 md:mb-0">
-                    <h3 class="text-2xl font-serif text-gold mb-2">Wait, there's more!</h3>
-                    <p class="text-sm text-gray-300">We have over <span class="text-white font-bold">Blazers,
-                            Sherwanis and Kurta sets</span> available exclusively at our Podanur store.</p>
+        <div class="w-full overflow-x-auto overflow-y-hidden py-4 fade-edges hide-scroll" id="grooms-carousel">
+            <div class="flex w-max" id="grooms-track">
+                <!-- Group 1 -->
+                <div class="flex gap-6 pr-6 w-max items-center">
+                    <!-- Groom Product 1 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/groom1.png?updatedAt=1778461398053&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/groom1.png?updatedAt=1778461398053&tr=f-auto,q-auto"
+                            alt="Sherwani"
+                            class="w-full h-[60vh] object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Royal Sherwani</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Royal Sherwani')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Groom Product 2 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/groom2.png?updatedAt=1778461396128&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/groom2.png?updatedAt=1778461396128&tr=f-auto,q-auto"
+                            alt="Jodhpur Suit"
+                            class="w-full h-[60vh] object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Jodhpur Suit</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Jodhpur Suit')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Groom Product 3 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/groom3.png?updatedAt=1778461396031&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/groom3.png?updatedAt=1778461396031&tr=f-auto,q-auto"
+                            alt="Italian Tuxedo"
+                            class="w-full h-[60vh] object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Italian Tuxedo</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Italian Tuxedo')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Groom Product 4 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=600&auto=format&fit=crop')">
+                        <img loading="lazy" decoding="async"
+                            src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=600&auto=format&fit=crop"
+                            alt="Indo-Western"
+                            class="w-full h-[60vh] object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Indo-Western</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Indo-Western')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- DISCOVER MORE CARD -->
+                    <div class="border-2 border-dashed border-gold rounded-lg flex flex-col items-center justify-center p-8 bg-white/50 text-center group hover:border-maroon hover:shadow-lg transition duration-300 cursor-pointer w-[280px] shrink-0 md:w-[350px] h-[60vh]"
+                        onclick="inquireProduct('Full Menswear Catalog')">
+                        <div
+                            class="w-16 h-16 rounded-full bg-maroon/10 flex items-center justify-center mb-4 group-hover:bg-maroon/20 transition-colors">
+                            <i class="fas fa-plus text-maroon group-hover:text-gold text-2xl transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-maroon group-hover:text-gold transition-colors">Discover More</h3>
+                        <p class="text-sm opacity-70 mb-6 group-hover:text-maroon transition-colors">Our website only shows few of our collection. Visit us to see our full Collections.</p>
+                        <span class="text-xs font-bold uppercase tracking-widest border-b-2 border-gold text-maroon group-hover:border-maroon transition-colors">View Full Gallery</span>
+                    </div>
                 </div>
-                <button onclick="inquireProduct('Full Menswear Catalog')"
-                    class="bg-gold text-maroon px-8 py-3 rounded font-bold uppercase text-sm tracking-widest hover:bg-white transition">Request
-                    Full Catalog</button>
+                <!-- Group 2 -->
+                <div class="flex gap-6 pr-6 w-max items-center">
+                    <!-- Groom Product 1 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/groom1.png?updatedAt=1778461398053&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/groom1.png?updatedAt=1778461398053&tr=f-auto,q-auto"
+                            alt="Sherwani"
+                            class="w-full h-[60vh] object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Royal Sherwani</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Royal Sherwani')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Groom Product 2 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/groom2.png?updatedAt=1778461396128&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/groom2.png?updatedAt=1778461396128&tr=f-auto,q-auto"
+                            alt="Jodhpur Suit"
+                            class="w-full h-[60vh] object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Jodhpur Suit</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Jodhpur Suit')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Groom Product 3 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://ik.imagekit.io/akhilz/Inizyo/groom3.png?updatedAt=1778461396031&tr=f-auto,q-auto')">
+                        <img loading="lazy" decoding="async"
+                            src="https://ik.imagekit.io/akhilz/Inizyo/groom3.png?updatedAt=1778461396031&tr=f-auto,q-auto"
+                            alt="Italian Tuxedo"
+                            class="w-full h-[60vh] object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Italian Tuxedo</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Italian Tuxedo')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- Groom Product 4 -->
+                    <div class="group relative card-zoom overflow-hidden rounded-lg shadow-lg cursor-pointer w-[280px] shrink-0 md:w-[350px]"
+                        onclick="openImageModal('https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=600&auto=format&fit=crop')">
+                        <img loading="lazy" decoding="async"
+                            src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=600&auto=format&fit=crop"
+                            alt="Indo-Western"
+                            class="w-full h-[60vh] object-cover transition duration-500">
+                        <div class="absolute inset-0 bg-maroon/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-6">
+                            <h3 class="text-xl font-serif mb-2">Indo-Western</h3>
+                            <button onclick="event.stopPropagation(); inquireProduct('Indo-Western')"
+                                class="bg-gold text-maroon px-4 py-2 font-bold uppercase text-xs hover:-translate-y-1 hover:shadow-xl transition-all">Inquire</button>
+                        </div>
+                    </div>
+                    <!-- DISCOVER MORE CARD -->
+                    <div class="border-2 border-dashed border-gold rounded-lg flex flex-col items-center justify-center p-8 bg-white/50 text-center group hover:border-maroon hover:shadow-lg transition duration-300 cursor-pointer w-[280px] shrink-0 md:w-[350px] h-[60vh]"
+                        onclick="inquireProduct('Full Menswear Catalog')">
+                        <div
+                            class="w-16 h-16 rounded-full bg-maroon/10 flex items-center justify-center mb-4 group-hover:bg-maroon/20 transition-colors">
+                            <i class="fas fa-plus text-maroon group-hover:text-gold text-2xl transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-maroon group-hover:text-gold transition-colors">Discover More</h3>
+                        <p class="text-sm opacity-70 mb-6 group-hover:text-maroon transition-colors">Our website only shows few of our collection. Visit us to see our full Collections.</p>
+                        <span class="text-xs font-bold uppercase tracking-widest border-b-2 border-gold text-maroon group-hover:border-maroon transition-colors">View Full Gallery</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -676,6 +1062,43 @@
             mobileMenu.classList.toggle('hidden');
         });
 
+        // Dark Mode Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
+        const themeIconMobile = document.getElementById('theme-icon-mobile');
+
+        function updateThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const icons = [themeIcon, themeIconMobile];
+
+            icons.forEach(icon => {
+                if (!icon) return;
+                if (isDark) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateThemeIcons();
+        }
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        themeToggleMobileBtn.addEventListener('click', toggleTheme);
+        updateThemeIcons();
+
         document.querySelectorAll('.mobile-link').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
@@ -764,6 +1187,146 @@
                 });
             });
         });
+        function updateWomenHeadingScroll() {
+            const womenSec = document.getElementById('women');
+            const headingGroup = document.getElementById('women-heading-group');
+
+            if (womenSec && headingGroup) {
+                if (window.innerWidth < 768) {
+                    headingGroup.style.transform = '';
+                    return;
+                }
+                const rect = womenSec.getBoundingClientRect();
+                const vh = window.innerHeight;
+
+                if (rect.top <= vh && rect.bottom >= 0) {
+                    let progress = 1 - (rect.top / vh);
+                    if (progress < 0) progress = 0;
+                    if (progress > 1) progress = 1;
+
+                    const containerWidth = headingGroup.parentElement.offsetWidth;
+                    const groupWidth = headingGroup.offsetWidth;
+                    const maxOffset = Math.max(0, (containerWidth - groupWidth) / 2);
+
+                    const currentOffset = maxOffset * (1 - progress);
+                    headingGroup.style.transform = `translateX(${currentOffset}px)`;
+                } else if (rect.top > vh) {
+                    const containerWidth = headingGroup.parentElement.offsetWidth;
+                    const groupWidth = headingGroup.offsetWidth;
+                    const maxOffset = Math.max(0, (containerWidth - groupWidth) / 2);
+                    headingGroup.style.transform = `translateX(${maxOffset}px)`;
+                }
+            }
+        }
+
+        function updateMenHeadingScroll() {
+            const menSec = document.getElementById('men');
+            const headingGroup = document.getElementById('men-heading-group');
+
+            if (menSec && headingGroup) {
+                if (window.innerWidth < 768) {
+                    headingGroup.style.transform = '';
+                    return;
+                }
+                const rect = menSec.getBoundingClientRect();
+                const vh = window.innerHeight;
+
+                if (rect.top <= vh && rect.bottom >= 0) {
+                    let progress = 1 - (rect.top / vh);
+                    if (progress < 0) progress = 0;
+                    if (progress > 1) progress = 1;
+
+                    const containerWidth = headingGroup.parentElement.offsetWidth;
+                    const groupWidth = headingGroup.offsetWidth;
+                    const maxOffset = Math.max(0, (containerWidth - groupWidth) / 2);
+
+                    // Starts at center (pulled left by -maxOffset) and moves to right (0)
+                    const currentOffset = -maxOffset * (1 - progress);
+                    headingGroup.style.transform = `translateX(${currentOffset}px)`;
+                } else if (rect.top > vh) {
+                    const containerWidth = headingGroup.parentElement.offsetWidth;
+                    const groupWidth = headingGroup.offsetWidth;
+                    const maxOffset = Math.max(0, (containerWidth - groupWidth) / 2);
+                    headingGroup.style.transform = `translateX(${-maxOffset}px)`;
+                }
+            }
+        }
+
+        window.addEventListener('scroll', updateMenHeadingScroll, { passive: true });
+        window.addEventListener('resize', updateMenHeadingScroll, { passive: true });
+        updateMenHeadingScroll();
+        window.addEventListener('scroll', updateWomenHeadingScroll, { passive: true });
+        window.addEventListener('resize', updateWomenHeadingScroll, { passive: true });
+        updateWomenHeadingScroll();
+
+        // Brides Carousel Auto Scroll and infinite loop
+        const bridesCarousel = document.getElementById('brides-carousel');
+        const bridesTrack = document.getElementById('brides-track');
+        let bridesHovered = false;
+
+        if (bridesCarousel && bridesTrack) {
+            function autoScrollBrides() {
+                if (!bridesHovered) {
+                    bridesCarousel.scrollLeft += 1;
+                }
+                requestAnimationFrame(autoScrollBrides);
+            }
+            requestAnimationFrame(autoScrollBrides);
+
+            // Pause on hover or touch
+            bridesCarousel.addEventListener('mouseenter', () => bridesHovered = true);
+            bridesCarousel.addEventListener('mouseleave', () => bridesHovered = false);
+            bridesCarousel.addEventListener('touchstart', () => bridesHovered = true, { passive: true });
+            bridesCarousel.addEventListener('touchend', () => bridesHovered = false);
+
+            // Handle infinite loop logic when scrolled
+            bridesCarousel.addEventListener('scroll', () => {
+                const halfWidth = bridesTrack.scrollWidth / 2;
+                if (bridesCarousel.scrollLeft >= halfWidth) {
+                    bridesCarousel.scrollLeft -= halfWidth;
+                } else if (bridesCarousel.scrollLeft <= 0) {
+                    bridesCarousel.scrollLeft += (halfWidth - 1);
+                }
+            });
+        }
+
+        // Grooms Carousel Auto Scroll and infinite loop (Left to Right)
+        const groomsCarousel = document.getElementById('grooms-carousel');
+        const groomsTrack = document.getElementById('grooms-track');
+        let groomsHovered = false;
+
+        if (groomsCarousel && groomsTrack) {
+            // Because it moves left to right, we want to start from the middle so it has space to scroll left.
+            // On load, shift it to halfWidth if it's at 0.
+            const initialHalf = groomsTrack.scrollWidth / 2;
+            groomsCarousel.scrollLeft = initialHalf - 1;
+
+            function autoScrollGrooms() {
+                if (!groomsHovered) {
+                    groomsCarousel.scrollLeft -= 1;
+                }
+                requestAnimationFrame(autoScrollGrooms);
+            }
+            requestAnimationFrame(autoScrollGrooms);
+
+            // Pause on hover or touch
+            groomsCarousel.addEventListener('mouseenter', () => groomsHovered = true);
+            groomsCarousel.addEventListener('mouseleave', () => groomsHovered = false);
+            groomsCarousel.addEventListener('touchstart', () => groomsHovered = true, { passive: true });
+            groomsCarousel.addEventListener('touchend', () => groomsHovered = false);
+
+            // Handle infinite loop logic when scrolled
+            groomsCarousel.addEventListener('scroll', () => {
+                const halfWidth = groomsTrack.scrollWidth / 2;
+                if (groomsCarousel.scrollLeft <= 0) {
+                    // Reached the start, jump back to the end of the first duplicate group
+                    groomsCarousel.scrollLeft += (halfWidth - 1);
+                } else if (groomsCarousel.scrollLeft >= halfWidth) {
+                    // Reached the end (scrolled manually right), jump to the start of the first group
+                    groomsCarousel.scrollLeft -= halfWidth;
+                }
+            });
+        }
     </script>
 </body>
 
